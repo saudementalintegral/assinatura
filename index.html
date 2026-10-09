@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plano de Cuidado & Programa de Saúde Mental Integrativa | Dra. Tânia Abreu</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+
+  <!-- Barra Superior de Controle e Ações -->
+  <header class="top-action-bar btn-print-hide">
+    <div class="brand-info">
+      <!-- Ícone Monograma TAC em SVG -->
+      <svg class="brand-logo-small" viewBox="0 0 100 100" fill="none">
+        <circle cx="50" cy="50" r="46" stroke="#BD9B60" stroke-width="2"/>
+        <text x="50%" y="60%" text-anchor="middle" font-family="'Cinzel', serif" font-size="34" font-weight="600" fill="#BD9B60">TAC</text>
+      </svg>
+      <div class="brand-title">DRA. TÂNIA ABREU</div>
+    </div>
+
+    <nav class="nav-tabs">
+      <button id="tabAll" class="nav-tab-btn active">Todos os Documentos</button>
+      <button id="tabLetter" class="nav-tab-btn">1. Carta de Boas-Vindas</button>
+      <button id="tabProgram" class="nav-tab-btn">2. Programa & Regras</button>
+    </nav>
+
+    <div class="action-buttons">
+      <a href="#signatureSection" class="btn btn-outline">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+        </svg>
+        Assinar Digitalmente
+      </a>
+      <button id="btnPrint" class="btn btn-gold">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        Imprimir / Gerar PDF
+      </button>
+    </div>
+  </header>
+
+  <main class="app-container">
+
+    <!-- ==========================================================
+         DOCUMENTO 1: CARTA DE BOAS-VINDAS (Layout 2 Colunas)
+         ========================================================== -->
+    <article id="docLetter" class="document-sheet welcome-document">
+      
+      <!-- Faixa Lateral Azul Petróleo -->
+      <aside class="sidebar-navy">
+        <div class="sidebar-brand">
+          <!-- Monograma Elegante TAC com Ramo de Louro / Folhas -->
+          <svg class="gold-logo-icon" viewBox="0 0 120 120" fill="none">
+            <path d="M60 15 C 38 15 20 33 20 55 C 20 70 28 83 40 90" stroke="#BD9B60" stroke-width="1.8" stroke-dasharray="2 2"/>
+            <path d="M60 15 C 82 15 100 33 100 55 C 100 70 92 83 80 90" stroke="#BD9B60" stroke-width="1.8"/>
+            <!-- Ramo botânico estilizado -->
+            <path d="M78 40 Q 88 35 90 28 Q 84 34 78 40 Z" fill="#BD9B60"/>
+            <path d="M84 48 Q 94 45 96 38 Q 90 43 84 48 Z" fill="#BD9B60"/>
+            <path d="M86 58 Q 96 57 98 50 Q 92 53 86 58 Z" fill="#BD9B60"/>
+            <!-- Monograma TAC -->
+            <text x="50%" y="65%" text-anchor="middle" font-family="'Cinzel', serif" font-size="42" font-weight="600" fill="#BD9B60" letter-spacing="2">TAC</text>
+          </svg>
+          <h2>TÂNIA ABREU</h2>
+          <p>PSIQUIATRIA INTEGRATIVA</p>
+        </div>
+
+        <div class="sidebar-divider-line"></div>
+
+        <div class="sidebar-vertical-text">
+          CIÊNCIA, ACOLHIMENTO E PROPÓSITO. UMA ABORDAGEM INTEGRATIVA PARA SUA SAÚDE MENTAL.
+        </div>
+
+        <!-- Ramo Botânico Decorativo Rodapé -->
+        <svg class="sidebar-botanical" viewBox="0 0 50 100" fill="none">
+          <path d="M25 90 L25 15" stroke="#BD9B60" stroke-width="1.5"/>
+          <path d="M25 75 Q 38 70 40 60 Q 32 68 25 75" fill="#BD9B60"/>
+          <path d="M25 75 Q 12 70 10 60 Q 18 68 25 75" fill="#BD9B60"/>
+          <path d="M25 50 Q 38 45 40 35 Q 32 43 25 50" fill="#BD9B60"/>
+          <path d="M25 50 Q 12 45 10 35 Q 18 43 25 50" fill="#BD9B60"/>
+          <path d="M25 25 Q 35 20 37 10 Q 30 18 25 25" fill="#BD9B60"/>
+          <path d="M25 25 Q 15 20 13 10 Q 20 18 25 25" fill="#BD9B60"/>
+          <circle cx="25" cy="15" r="3" fill="#BD9B60"/>
+        </svg>
+      </aside>
+
+      <!-- Conteúdo da Carta de Boas-Vindas -->
+      <section class="welcome-content">
+        <header class="welcome-header">
+          <div class="subtitle">PLANO DE CUIDADO</div>
+          <h1 class="main-title">INTEGRATIVO</h1>
+          <div class="gold-ornament">
+            <svg class="gold-flower-icon" viewBox="0 0 24 24">
+              <path d="M12 2L14 9L21 9L15.5 13.5L17.5 20.5L12 16L6.5 20.5L8.5 13.5L3 9L10 9Z"/>
+            </svg>
+          </div>
+          <h2 class="letter-title">CARTA DE BOAS-VINDAS</h2>
+        </header>
+
+        <div class="letter-body">
+          <p class="greeting">Seja muito bem-vindo(a).</p>
+          <p>É uma alegria recebê-lo(a) em nosso Plano de Cuidado Integrativo.</p>
+          <p>Ao escolher iniciar este acompanhamento, você não está apenas agendando consultas. Está dando um passo consciente em direção a um cuidado estruturado, individualizado e fundamentado nas melhores evidências científicas disponíveis.</p>
+          <p>Cada pessoa possui uma história, desafios, objetivos e necessidades próprias. Por isso, acreditamos que um tratamento verdadeiramente eficaz deve respeitar essa singularidade e adaptar-se continuamente à evolução clínica de cada paciente.</p>
+          <p>Nosso compromisso é oferecer um cuidado próximo, ético e humanizado, integrando Psiquiatria, Psicoterapia Baseada em Evidências, Medicina do Estilo de Vida e outras estratégias terapêuticas que possam contribuir para sua saúde mental, seu funcionamento e sua qualidade de vida.</p>
+          <p>Ao longo dessa jornada, construiremos juntos um plano terapêutico personalizado, que poderá ser ajustado sempre que necessário, de acordo com sua evolução e seus objetivos.</p>
+          <p>Esperamos que este programa represente não apenas um período de tratamento, mas uma oportunidade de desenvolver recursos duradouros para viver com mais equilíbrio, autonomia e bem-estar.</p>
+          <p class="gratitude">Agradecemos a confiança depositada em nosso trabalho.<br>Será um privilégio acompanhá-lo(a) nessa caminhada.</p>
+        </div>
+
+        <footer class="doctor-signature-section">
+          <!-- Assinatura Manuscrita Fiel com Coração -->
+          <div class="signature-svg-wrapper">
+            <span class="doctor-signature-text">Tânia Abreu</span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="display:inline-block; vertical-align:middle; margin-left: -10px; margin-top: -12px;">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#BD9B60"/>
+            </svg>
+          </div>
+          <div class="doctor-name">DRA. TÂNIA ABREU</div>
+          <div class="doctor-specialty">PSIQUIATRA INTEGRATIVA</div>
+          <div class="doctor-credentials">CRM 104951 | RQE 82888</div>
+
+          <div class="letter-footer-ornament">
+            <span class="dots">• • •</span>
+            <span class="line"></span>
+            <svg class="gold-flower-icon" viewBox="0 0 24 24">
+              <path d="M12 2L14 9L21 9L15.5 13.5L17.5 20.5L12 16L6.5 20.5L8.5 13.5L3 9L10 9Z"/>
+            </svg>
+            <span class="line"></span>
+            <span class="dots">• • •</span>
+          </div>
+        </footer>
+      </section>
+    </article>
+
+
+    <!-- ==========================================================
+         DOCUMENTO 2: PROGRAMA DE SAÚDE MENTAL INTEGRATIVA
+         ========================================================== -->
+    <article id="docProgram" class="document-sheet program-document">
+      
+      <header class="program-top-header">
+        <div class="program-logo-area">
+          <svg class="gold-logo-icon" viewBox="0 0 120 120" fill="none" style="width: 80px;">
+            <path d="M60 15 C 38 15 20 33 20 55 C 20 70 28 83 40 90" stroke="#BD9B60" stroke-width="1.8" stroke-dasharray="2 2"/>
+            <path d="M60 15 C 82 15 100 33 100 55 C 100 70 92 83 80 90" stroke="#BD9B60" stroke-width="1.8"/>
+            <path d="M78 40 Q 88 35 90 28 Q 84 34 78 40 Z" fill="#BD9B60"/>
+            <path d="M84 48 Q 94 45 96 38 Q 90 43 84 48 Z" fill="#BD9B60"/>
+            <path d="M86 58 Q 96 57 98 50 Q 92 53 86 58 Z" fill="#BD9B60"/>
+            <text x="50%" y="65%" text-anchor="middle" font-family="'Cinzel', serif" font-size="42" font-weight="600" fill="#BD9B60" letter-spacing="2">TAC</text>
+          </svg>
+        </div>
+        <div class="subtitle">PROGRAMA DE</div>
+        <h1 class="main-title">SAÚDE MENTAL INTEGRATIVA</h1>
+        <div class="gold-ornament">
+          <svg class="gold-flower-icon" viewBox="0 0 24 24">
+            <path d="M12 2L14 9L21 9L15.5 13.5L17.5 20.5L12 16L6.5 20.5L8.5 13.5L3 9L10 9Z"/>
+          </svg>
+        </div>
+
+        <div class="program-intro-box">
+          <p>Integramos Psiquiatria, Psicoterapia e estratégias baseadas em evidências para oferecer um cuidado contínuo, individualizado e orientado para resultados consistentes.</p>
+          <span class="lead-bold">Mais do que consultas isoladas, trabalhamos em um processo de cuidado.</span>
+        </div>
+      </header>
+
+      <!-- 3 Pilares -->
+      <section class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon-box">
+            <!-- Ícone Pessoa com Ramo -->
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="7" r="4"/>
+              <path d="M5.5 21v-2a6.5 6.5 0 0 1 13 0v2"/>
+              <path d="M16 11c1-1 3-1 4 0s0 3-1 4"/>
+            </svg>
+          </div>
+          <h3 class="pillar-title">PLANO TERAPÊUTICO INDIVIDUALIZADO</h3>
+          <p class="pillar-desc">Cada decisão terapêutica é construída considerando sua história, objetivos e necessidades atuais.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon-box">
+            <!-- Ícone Gráfico de Evolução -->
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+              <polyline points="16 7 22 7 22 13"></polyline>
+            </svg>
+          </div>
+          <h3 class="pillar-title">ACOMPANHAMENTO ENTRE CONSULTAS</h3>
+          <p class="pillar-desc">O programa inclui acompanhamento da evolução, suporte para intercorrências e ajustes terapêuticos sempre que necessário.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon-box">
+            <!-- Ícone Alvo de Autonomia -->
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="6"/>
+              <circle cx="12" cy="12" r="2"/>
+            </svg>
+          </div>
+          <h3 class="pillar-title">FERRAMENTAS PRÁTICAS PARA A MUDANÇA</h3>
+          <p class="pillar-desc">Nosso objetivo é promover mudanças consistentes e recursos duradouros para sua saúde mental.</p>
+        </div>
+      </section>
+
+      <div class="gold-ornament" style="margin: 10px 0 20px 0;">
+        <svg class="gold-flower-icon" viewBox="0 0 24 24">
+          <path d="M12 2L14 9L21 9L15.5 13.5L17.5 20.5L12 16L6.5 20.5L8.5 13.5L3 9L10 9Z"/>
+        </svg>
+      </div>
+
+      <!-- Compromissos Mútuos -->
+      <section class="commitments-grid">
+        <div class="commitment-box-left">
+          <div class="commitment-header">
+            <svg class="commitment-header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+            <h3>NOSSO COMPROMISSO</h3>
+          </div>
+          <ul class="commitment-list">
+            <li>Preparar cada atendimento de forma individualizada.</li>
+            <li>Oferecer um cuidado ético, humano e baseado em evidências.</li>
+            <li>Acompanhar sua evolução e revisar estratégias sempre que necessário.</li>
+            <li>Disponibilizar apoio sempre que necessário durante o programa.</li>
+            <li>Respeitar o horário reservado para o seu acompanhamento.</li>
+          </ul>
+        </div>
+
+        <div class="commitment-box-right">
+          <div class="commitment-header">
+            <h3>SEU COMPROMISSO NO PROGRAMA</h3>
+          </div>
+          <span class="subhead">Durante o programa esperamos que você:</span>
+          <ul class="user-commitment-list">
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M8 12l3 3 5-5"/>
+              </svg>
+              <span>Mantenha regularidade nos atendimentos.</span>
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M8 12l3 3 5-5"/>
+              </svg>
+              <span>Realize as leituras e utilize os materiais disponibilizados.</span>
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M8 12l3 3 5-5"/>
+              </svg>
+              <span>Registre dúvidas, intercorrências e dificuldades ao longo do processo.</span>
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M8 12l3 3 5-5"/>
+              </svg>
+              <span><strong>Comunique alterações de agenda com antecedência mínima de 72 horas.</strong></span>
+            </li>
+            <li>
+              <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M8 12l3 3 5-5"/>
+              </svg>
+              <span>Participe ativamente das estratégias propostas para o seu plano terapêutico.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 3 Regras / Orientações -->
+      <section class="rules-grid">
+        <div class="rule-col">
+          <div class="rule-col-header">
+            <svg class="rule-col-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            <h4>HORÁRIO RESERVADO</h4>
+          </div>
+          <p>Seu horário é reservado exclusivamente para o seu acompanhamento durante todo o programa.</p>
+          <p><span class="highlight">Solicitações de alteração devem ser feitas com pelo menos 72 horas de antecedência.</span></p>
+          <p>Após esse prazo, a sessão será considerada realizada.</p>
+        </div>
+
+        <div class="rule-col">
+          <div class="rule-col-header">
+            <svg class="rule-col-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <h4>LISTA DE ESPERA</h4>
+          </div>
+          <p>Como os horários são exclusivos e recorrentes, deixam de ser disponibilizados para outros interessados.</p>
+          <p>Essa organização garante previsibilidade e continuidade para todos.</p>
+        </div>
+
+        <div class="rule-col">
+          <div class="rule-col-header">
+            <svg class="rule-col-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <h4>CANAL EXCLUSIVO DE APOIO</h4>
+          </div>
+          <p>Durante o programa você contará com um canal exclusivo com a Dra. Tânia e com o concierge para:</p>
+          <ul class="support-list">
+            <li>esclarecimento de dúvidas objetivas;</li>
+            <li>comunicação de intercorrências e necessidade de apoio;</li>
+            <li>orientações administrativas e organização da agenda.</li>
+          </ul>
+          <p><strong>Mensagens respondidas em horário comercial.</strong></p>
+          <p class="emergency-note">Este canal não substitui atendimento médico de urgência. Em situações de urgência ou emergência, procure imediatamente um serviço de saúde adequado.</p>
+        </div>
+      </section>
+
+      <!-- Concierge -->
+      <div class="concierge-bar">
+        <svg class="concierge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+          <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+        </svg>
+        <div class="concierge-info">
+          <h4>CONCIERGE:</h4>
+          <p>Responsável pela organização administrativa do programa e por acompanhar sua experiência durante todo o processo.</p>
+        </div>
+      </div>
+
+      <!-- Ornamento e Parceria -->
+      <footer class="joint-commitment-box">
+        <div class="gold-ornament" style="margin-bottom: 12px;">
+          <svg class="gold-flower-icon" viewBox="0 0 24 24">
+            <path d="M12 2L14 9L21 9L15.5 13.5L17.5 20.5L12 16L6.5 20.5L8.5 13.5L3 9L10 9Z"/>
+          </svg>
+        </div>
+        <h3>UM COMPROMISSO CONSTRUÍDO EM CONJUNTO</h3>
+        <p>Acreditamos que resultados consistentes são fruto da combinação entre conhecimento técnico, acompanhamento contínuo e participação ativa de quem escolhe este programa.</p>
+        <p class="partnership-highlight">É essa parceria que torna possível um cuidado verdadeiramente individualizado.</p>
+
+        <!-- Assinatura Médica -->
+        <div class="doctor-signature-section" style="padding-top: 15px;">
+          <div class="signature-svg-wrapper">
+            <span class="doctor-signature-text" style="font-size: 2.8rem;">Tânia Abreu</span>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="display:inline-block; vertical-align:middle; margin-left: -8px; margin-top: -10px;">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#BD9B60"/>
+            </svg>
+          </div>
+          <div class="doctor-name">DRA. TÂNIA ABREU</div>
+          <div class="doctor-specialty">PSIQUIATRIA INTEGRATIVA</div>
+          <div class="doctor-credentials">CRM 104951 | RQE 82888</div>
+        </div>
+
+        <!-- Bloco renderizado onde aparecerá a Assinatura Digital do Paciente após o envio -->
+        <div id="renderedPatientSignature" class="patient-signature-card-rendered" style="display: none;"></div>
+
+        <!-- Ações pós-assinatura (WhatsApp e PDF) -->
+        <div id="postSignatureActions" class="btn-print-hide" style="display: none; margin-top: 20px; text-align: center; gap: 12px; justify-content: center; flex-wrap: wrap;">
+          <button id="btnDownloadPdf" class="btn btn-gold" style="font-size: 0.95rem; padding: 12px 24px;">
+            📥 Baixar / Salvar PDF Assinado
+          </button>
+          <a id="btnShareWhatsapp" href="#" target="_blank" class="btn" style="background: #25D366; color: white; font-size: 0.95rem; padding: 12px 24px; text-decoration: none;">
+            📲 Enviar Confirmação no WhatsApp
+          </a>
+        </div>
+
+        <div class="letter-footer-ornament" style="margin-top: 20px;">
+          <span class="dots">• • •</span>
+          <span class="line"></span>
+          <svg class="gold-flower-icon" viewBox="0 0 24 24">
+            <path d="M12 2L14 9L21 9L15.5 13.5L17.5 20.5L12 16L6.5 20.5L8.5 13.5L3 9L10 9Z"/>
+          </svg>
+          <span class="line"></span>
+          <span class="dots">• • •</span>
+        </div>
+      </footer>
+    </article>
+
+
+    <!-- ==========================================================
+         PAINEL DE ASSINATURA DIGITAL DO PACIENTE (INTERATIVO)
+         ========================================================== -->
+    <section id="signatureSection" class="signature-panel btn-print-hide">
+      <header class="signature-panel-header">
+        <h2>Termo de Aceite & Assinatura Digital do Paciente</h2>
+        <p>Preencha seus dados e realize a sua assinatura digital manuscrita abaixo para confirmar seu compromisso com o Plano de Cuidado Integrativo.</p>
+      </header>
+
+      <form id="patientSignatureForm">
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label for="patientName">Nome Completo do Paciente *</label>
+            <input type="text" id="patientName" placeholder="Ex: Maria Carolina da Silva" required>
+          </div>
+
+          <div class="form-group">
+            <label for="patientCpf">CPF *</label>
+            <input type="text" id="patientCpf" placeholder="000.000.000-00" maxlength="14" required>
+          </div>
+
+          <div class="form-group">
+            <label for="patientPhone">WhatsApp / Telefone</label>
+            <input type="tel" id="patientPhone" placeholder="(11) 99999-9999" maxlength="15">
+          </div>
+
+          <div class="form-group full-width">
+            <label for="patientEmail">E-mail para confirmação *</label>
+            <input type="email" id="patientEmail" placeholder="seuemail@exemplo.com" required>
+          </div>
+        </div>
+
+        <!-- Área do Canvas para Assinatura Manual (Touch / Mouse) -->
+        <div class="signature-draw-area">
+          <div class="canvas-header">
+            <span>Desenhe sua assinatura / rubrica abaixo:</span>
+            <button type="button" id="btnClear" class="btn-clear">Limpar traço</button>
+          </div>
+          <canvas id="signatureCanvas"></canvas>
+          <p class="canvas-hint">Use o dedo na tela do celular ou o cursor do mouse no computador para assinar.</p>
+        </div>
+
+        <!-- Termo de Consentimento -->
+        <div class="terms-consent-box">
+          <label class="consent-label">
+            <input type="checkbox" id="termsConsent" required>
+            <span>Declaro que li, compreendi e concordo integralmente com as diretrizes do Programa de Saúde Mental Integrativa, incluindo a ciência dos horários reservados, canal de atendimento e a regra de antecedência mínima de 72 horas para alterações de agendamento.</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-gold signature-submit-btn">
+          Confirmar e Assinar Digitalmente
+        </button>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- Notificação Toast -->
+  <aside id="toastNotice" class="toast-notice" role="alert" aria-live="polite"></aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
