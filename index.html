@@ -423,13 +423,15 @@
         </div>
 
         <!-- Área do Canvas para Assinatura Manual (Touch / Mouse) -->
-        <div class="signature-draw-area">
+        <div class="signature-draw-area" style="touch-action: none;">
           <div class="canvas-header">
             <span>Desenhe sua assinatura / rubrica abaixo:</span>
             <button type="button" id="btnClear" class="btn-clear">Limpar traço</button>
           </div>
-          <canvas id="signatureCanvas"></canvas>
-          <p class="canvas-hint">Use o dedo na tela do celular ou o cursor do mouse no computador para assinar.</p>
+          <canvas id="signatureCanvas" style="width: 100%; height: 180px; touch-action: none; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; background: #FFFFFF; cursor: crosshair; display: block; border-radius: 6px; border: 1px solid #E2D9CC;"></canvas>
+          <div id="signatureFeedback" style="font-size: 0.75rem; color: #798590; margin-top: 6px;">
+            ✏️ Use o dedo no celular ou o mouse no computador para assinar.
+          </div>
         </div>
 
         <!-- Termo de Consentimento -->
@@ -455,8 +457,9 @@
     // Sistema de Assinatura Digital & Onboarding - Dra. Tânia Abreu
     document.addEventListener('DOMContentLoaded', () => {
       const canvas = document.getElementById('signatureCanvas');
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
       const btnClear = document.getElementById('btnClear');
+      const feedback = document.getElementById('signatureFeedback');
       const form = document.getElementById('patientSignatureForm');
       const toast = document.getElementById('toastNotice');
       const patientCard = document.getElementById('renderedPatientSignature');
@@ -470,79 +473,120 @@
       let isDrawing = false;
       let hasSigned = false;
 
-      function resizeCanvas() {
+      // Inicialização robusta do Canvas com resolução interna real
+      function initCanvas() {
         const rect = canvas.getBoundingClientRect();
-        const dpr = window.devicePixelRatio || 1;
-        
-        let tempCanvas = null;
-        if (hasSigned) {
-          tempCanvas = document.createElement('canvas');
-          tempCanvas.width = canvas.width;
-          tempCanvas.height = canvas.height;
-          tempCanvas.getContext('2d').drawImage(canvas, 0, 0);
+        const width = Math.floor(rect.width || canvas.offsetWidth || 600);
+        const height = Math.floor(rect.height || canvas.offsetHeight || 180);
+
+        // Guardar desenho caso já exista
+        let savedData = null;
+        if (hasSigned && canvas.width > 0 && canvas.height > 0) {
+          try { savedData = canvas.toDataURL(); } catch (_) {}
         }
 
-        canvas.width = rect.width * dpr;
-        canvas.height = rect.height * dpr;
-        ctx.scale(dpr, dpr);
+        canvas.width = width;
+        canvas.height = height;
 
         ctx.strokeStyle = '#0A243A';
-        ctx.lineWidth = 2.8;
+        ctx.fillStyle = '#0A243A';
+        ctx.lineWidth = 3.0;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
 
-        if (tempCanvas && hasSigned) {
-          ctx.drawImage(tempCanvas, 0, 0, rect.width, rect.height);
+        if (savedData) {
+          const img = new Image();
+          img.onload = () => ctx.drawImage(img, 0, 0, width, height);
+          img.src = savedData;
         }
       }
 
-      window.addEventListener('resize', resizeCanvas);
-      setTimeout(resizeCanvas, 200);
+      // Inicializa de imediato e em mudanças de tamanho
+      initCanvas();
+      window.addEventListener('resize', initCanvas);
+      window.addEventListener('orientationchange', () => setTimeout(initCanvas, 150));
+      setTimeout(initCanvas, 100);
 
-      function getCoords(e) {
+      // Cálculo de coordenadas 1:1 rigorosamente exato
+      function getPos(e) {
         const rect = canvas.getBoundingClientRect();
+        let clientX = e.clientX;
+        let clientY = e.clientY;
+
+        if (e.touches && e.touches.length > 0) {
+          clientX = e.touches[0].clientX;
+          clientY = e.touches[0].clientY;
+        } else if (e.changedTouches && e.changedTouches.length > 0) {
+          clientX = e.changedTouches[0].clientX;
+          clientY = e.changedTouches[0].clientY;
+        }
+
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+
         return {
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top
+          x: (clientX - rect.left) * scaleX,
+          y: (clientY - rect.top) * scaleY
         };
       }
 
-      // Pointer Events Modernos: funciona perfeito para touch no celular, mouse e caneta
-      canvas.addEventListener('pointerdown', (e) => {
+      function startDraw(e) {
         e.preventDefault();
-        canvas.setPointerCapture(e.pointerId);
         isDrawing = true;
-        const { x, y } = getCoords(e);
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-      });
+        hasSigned = true;
 
-      canvas.addEventListener('pointermove', (e) => {
+        if (feedback) {
+          feedback.innerHTML = '<span style="color: #2B7A4B; font-weight: 600;">✓ Assinatura em andamento...</span>';
+        }
+
+        const pos = getPos(e);
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+        // Desenha ponto imediato para garantir resposta ao toque
+        ctx.arc(pos.x, pos.y, ctx.lineWidth / 2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(pos.x, pos.y);
+      }
+
+      function moveDraw(e) {
         if (!isDrawing) return;
         e.preventDefault();
-        const { x, y } = getCoords(e);
-        ctx.lineTo(x, y);
+        const pos = getPos(e);
+        ctx.lineTo(pos.x, pos.y);
         ctx.stroke();
-        hasSigned = true;
-      });
+      }
 
-      function stopDrawing(e) {
+      function endDraw(e) {
         if (!isDrawing) return;
         isDrawing = false;
         ctx.closePath();
-        try {
-          canvas.releasePointerCapture(e.pointerId);
-        } catch (_) {}
       }
 
-      canvas.addEventListener('pointerup', stopDrawing);
-      canvas.addEventListener('pointercancel', stopDrawing);
+      // 1. Suporte a Pointer Events (Moderno e Unificado)
+      canvas.addEventListener('pointerdown', startDraw);
+      canvas.addEventListener('pointermove', moveDraw);
+      window.addEventListener('pointerup', endDraw);
+      window.addEventListener('pointercancel', endDraw);
+
+      // 2. Suporte Nativo a Touch (Smartphones Android, iPhone, iPad)
+      canvas.addEventListener('touchstart', startDraw, { passive: false });
+      canvas.addEventListener('touchmove', moveDraw, { passive: false });
+      window.addEventListener('touchend', endDraw);
+      window.addEventListener('touchcancel', endDraw);
+
+      // 3. Suporte Nativo a Mouse (Desktop / Notebooks)
+      canvas.addEventListener('mousedown', startDraw);
+      canvas.addEventListener('mousemove', moveDraw);
+      window.addEventListener('mouseup', endDraw);
 
       // Limpar Canvas
       btnClear.addEventListener('click', () => {
-        const rect = canvas.getBoundingClientRect();
-        ctx.clearRect(0, 0, rect.width, rect.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         hasSigned = false;
+        if (feedback) {
+          feedback.innerHTML = '✏️ Use o dedo no celular ou o mouse no computador para assinar.';
+        }
       });
 
       // Máscara de CPF
