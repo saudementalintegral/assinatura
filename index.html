@@ -451,6 +451,274 @@
   <!-- Notificação Toast -->
   <aside id="toastNotice" class="toast-notice" role="alert" aria-live="polite"></aside>
 
-  <script src="script.js"></script>
+  <script>
+    // Sistema de Assinatura Digital & Onboarding - Dra. Tânia Abreu
+    document.addEventListener('DOMContentLoaded', () => {
+      const canvas = document.getElementById('signatureCanvas');
+      const ctx = canvas.getContext('2d');
+      const btnClear = document.getElementById('btnClear');
+      const form = document.getElementById('patientSignatureForm');
+      const toast = document.getElementById('toastNotice');
+      const patientCard = document.getElementById('renderedPatientSignature');
+
+      const tabAll = document.getElementById('tabAll');
+      const tabLetter = document.getElementById('tabLetter');
+      const tabProgram = document.getElementById('tabProgram');
+      const sheetLetter = document.getElementById('docLetter');
+      const sheetProgram = document.getElementById('docProgram');
+
+      let isDrawing = false;
+      let hasSigned = false;
+
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        
+        let tempCanvas = null;
+        if (hasSigned) {
+          tempCanvas = document.createElement('canvas');
+          tempCanvas.width = canvas.width;
+          tempCanvas.height = canvas.height;
+          tempCanvas.getContext('2d').drawImage(canvas, 0, 0);
+        }
+
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+
+        ctx.strokeStyle = '#0A243A';
+        ctx.lineWidth = 2.8;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        if (tempCanvas && hasSigned) {
+          ctx.drawImage(tempCanvas, 0, 0, rect.width, rect.height);
+        }
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      setTimeout(resizeCanvas, 200);
+
+      function getCoords(e) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        };
+      }
+
+      // Pointer Events Modernos: funciona perfeito para touch no celular, mouse e caneta
+      canvas.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        canvas.setPointerCapture(e.pointerId);
+        isDrawing = true;
+        const { x, y } = getCoords(e);
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+      });
+
+      canvas.addEventListener('pointermove', (e) => {
+        if (!isDrawing) return;
+        e.preventDefault();
+        const { x, y } = getCoords(e);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        hasSigned = true;
+      });
+
+      function stopDrawing(e) {
+        if (!isDrawing) return;
+        isDrawing = false;
+        ctx.closePath();
+        try {
+          canvas.releasePointerCapture(e.pointerId);
+        } catch (_) {}
+      }
+
+      canvas.addEventListener('pointerup', stopDrawing);
+      canvas.addEventListener('pointercancel', stopDrawing);
+
+      // Limpar Canvas
+      btnClear.addEventListener('click', () => {
+        const rect = canvas.getBoundingClientRect();
+        ctx.clearRect(0, 0, rect.width, rect.height);
+        hasSigned = false;
+      });
+
+      // Máscara de CPF
+      const cpfInput = document.getElementById('patientCpf');
+      if (cpfInput) {
+        cpfInput.addEventListener('input', (e) => {
+          let v = e.target.value.replace(/\D/g, '');
+          if (v.length > 11) v = v.slice(0, 11);
+          v = v.replace(/(\d{3})(\d)/, '$1.$2');
+          v = v.replace(/(\d{3})(\d)/, '$1.$2');
+          v = v.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+          e.target.value = v;
+        });
+      }
+
+      // Máscara de Telefone
+      const phoneInput = document.getElementById('patientPhone');
+      if (phoneInput) {
+        phoneInput.addEventListener('input', (e) => {
+          let v = e.target.value.replace(/\D/g, '');
+          if (v.length > 11) v = v.slice(0, 11);
+          if (v.length > 10) {
+            v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+          } else if (v.length > 6) {
+            v = v.replace(/^(\d{2})(\d{4})(\d{0,4})$/, '($1) $2-$3');
+          } else if (v.length > 2) {
+            v = v.replace(/^(\d{2})(\d{0,5})$/, '($1) $2');
+          }
+          e.target.value = v;
+        });
+      }
+
+      function generateAuthHash(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+          const char = str.charCodeAt(i);
+          hash = (hash << 5) - hash + char;
+          hash |= 0;
+        }
+        const hex = Math.abs(hash).toString(16).toUpperCase().padStart(8, '0');
+        const randomHex = Math.random().toString(16).substring(2, 10).toUpperCase();
+        return `AUTH-${hex}-${randomHex}`;
+      }
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 4500);
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('patientName').value.trim();
+        const cpf = document.getElementById('patientCpf').value.trim();
+        const email = document.getElementById('patientEmail').value.trim();
+        const consent = document.getElementById('termsConsent').checked;
+
+        if (!name || !cpf || !email) {
+          alert('Por favor, preencha todos os campos obrigatórios (Nome, CPF e E-mail).');
+          return;
+        }
+
+        if (!consent) {
+          alert('É necessário marcar o aceite dos termos e compromissos do programa para prosseguir.');
+          return;
+        }
+
+        if (!hasSigned) {
+          alert('Por favor, faça sua rubrica ou assinatura no quadro branco antes de confirmar.');
+          return;
+        }
+
+        const signatureDataUrl = canvas.toDataURL('image/png');
+
+        const now = new Date();
+        const dateFormatted = now.toLocaleDateString('pt-BR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric'
+        });
+        const timeFormatted = now.toLocaleTimeString('pt-BR', {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        const authHash = generateAuthHash(`${name}_${cpf}_${now.toISOString()}`);
+
+        patientCard.innerHTML = `
+          <div class="patient-signature-meta">
+            <h4>Documento Assinado Digitalmente pelo Paciente</h4>
+            <p><strong>Paciente:</strong> ${escapeHtml(name)} | <strong>CPF:</strong> ${escapeHtml(cpf)}</p>
+            <p><strong>Aceite do Programa e Regras de Atendimento:</strong> Confirmado em ${dateFormatted} às ${timeFormatted}</p>
+            <span class="hash-code">Autenticação: ${authHash}</span>
+          </div>
+          <div class="patient-signature-display-box">
+            <img class="patient-signature-display-img" src="${signatureDataUrl}" alt="Assinatura Digital do Paciente" />
+            <div class="patient-signature-label">${escapeHtml(name)}</div>
+          </div>
+        `;
+
+        patientCard.style.display = 'grid';
+
+        const postActions = document.getElementById('postSignatureActions');
+        const btnShareWhatsapp = document.getElementById('btnShareWhatsapp');
+        const btnDownloadPdf = document.getElementById('btnDownloadPdf');
+
+        if (postActions) {
+          postActions.style.display = 'flex';
+          
+          const whatsappMsg = encodeURIComponent(
+            `*Confirmação de Assinatura Digital*\n\n` +
+            `Olá! Eu, *${name}* (CPF: ${cpf}), acabei de ler e assinar digitalmente o *Plano de Cuidado & Programa de Saúde Mental Integrativa* da Dra. Tânia Abreu.\n\n` +
+            `📅 Data: ${dateFormatted} às ${timeFormatted}\n` +
+            `🔐 Código de Autenticação: *${authHash}*`
+          );
+
+          btnShareWhatsapp.href = `https://api.whatsapp.com/send?text=${whatsappMsg}`;
+
+          btnDownloadPdf.onclick = () => {
+            sheetLetter.style.display = 'grid';
+            sheetProgram.style.display = 'flex';
+            setActiveTab(tabAll);
+            setTimeout(() => window.print(), 150);
+          };
+        }
+
+        patientCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showToast('Assinatura registrada! Você pode baixar o PDF ou enviar a confirmação no WhatsApp.');
+      });
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function setActiveTab(tab) {
+        tabAll.classList.remove('active');
+        tabLetter.classList.remove('active');
+        tabProgram.classList.remove('active');
+        tab.classList.add('active');
+      }
+
+      tabAll.addEventListener('click', () => {
+        setActiveTab(tabAll);
+        sheetLetter.style.display = 'grid';
+        sheetProgram.style.display = 'flex';
+      });
+
+      tabLetter.addEventListener('click', () => {
+        setActiveTab(tabLetter);
+        sheetLetter.style.display = 'grid';
+        sheetProgram.style.display = 'none';
+      });
+
+      tabProgram.addEventListener('click', () => {
+        setActiveTab(tabProgram);
+        sheetLetter.style.display = 'none';
+        sheetProgram.style.display = 'flex';
+      });
+
+      const btnPrint = document.getElementById('btnPrint');
+      if (btnPrint) {
+        btnPrint.addEventListener('click', () => {
+          sheetLetter.style.display = 'grid';
+          sheetProgram.style.display = 'flex';
+          setActiveTab(tabAll);
+          setTimeout(() => {
+            window.print();
+          }, 200);
+        });
+      }
+    });
+  </script>
 </body>
 </html>
